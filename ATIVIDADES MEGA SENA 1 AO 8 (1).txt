@@ -1,0 +1,268 @@
+FASE 1. 
+
+using System;
+
+class MegaSena
+{
+    static void Main()
+    {
+        GerarDezenas();
+    }
+
+    static void GerarDezenas()
+    {
+        Random random = new Random();
+        int[] dezenas = new int[6];
+
+        for (int i = 0; i < 6; i++) // Loop para gerar 6 dezenas
+        {
+            dezenas[i] = random.Next(1, 61);
+        }
+
+        Console.WriteLine("Dezenas sorteadas: " + string.Join("-", dezenas));
+    }
+}
+
+
+
+
+
+
+
+
+
+FASE 2. 
+
+
+using System;
+
+class MegaSena
+{
+    static void Main()
+    {
+        Console.Write("Quantos jogos deseja gerar? ");
+        int quantidadeJogos = int.Parse(Console.ReadLine());
+        GerarBolao(quantidadeJogos);
+    }
+
+    static void GerarBolao(int quantidadeJogos)
+    {
+        Random random = new Random(); // Cria uma instância da classe Random
+        for (int j = 0; j < quantidadeJogos; j++)
+        {
+            int[] dezenas = new int[6];
+            for (int i = 0; i < 6; i++)
+            {
+                dezenas[i] = random.Next(1, 61);
+            }
+            Console.WriteLine("Jogo " + (j + 1) + ": " + string.Join("-", dezenas));
+        }
+    }
+}
+
+
+
+
+FASE 3. 
+
+using System;
+
+class MegaSena
+{
+    static void Main()
+    {
+        Console.Write("Quantos jogos deseja gerar? ");
+        int quantidadeJogos = int.Parse(Console.ReadLine());
+
+        Console.Write("Quantas dezenas por jogo (entre 6 e 15)? ");
+        int quantidadeDezenas = int.Parse(Console.ReadLine());
+
+        while (quantidadeDezenas < 6 || quantidadeDezenas > 15)
+        {
+            Console.WriteLine("Número inválido! Por favor, insira um valor entre 6 e 15.");
+            Console.Write("Quantas dezenas por jogo (entre 6 e 15)? ");
+            quantidadeDezenas = int.Parse(Console.ReadLine());
+        }
+
+        GerarJogos(quantidadeJogos, quantidadeDezenas);
+    }
+
+    static void GerarJogos(int quantidadeJogos, int quantidadeDezenas)
+    {
+        Random random = new Random();
+        for (int j = 0; j < quantidadeJogos; j++)
+        {
+            int[] dezenas = new int[quantidadeDezenas];
+            for (int i = 0; i < quantidadeDezenas; i++)
+            {
+                dezenas[i] = random.Next(1, 61);
+            }
+            Console.WriteLine("Jogo " + (j + 1) + ": " + string.Join("-", dezenas));
+    }
+}
+
+
+
+
+FASE 4 E 5. 
+
+using System;
+using System.IO;
+class MegaSena
+{
+    static void Main()
+    {
+        Console.Write("Quantos jogos deseja gerar? ");
+        int quantidadeJogos = int.Parse(Console.ReadLine());
+
+        Console.Write("Quantas dezenas por jogo (entre 6 e 15)? ");
+        int quantidadeDezenas = int.Parse(Console.ReadLine());
+
+        while (quantidadeDezenas < 6 || quantidadeDezenas > 15)
+        {
+            Console.WriteLine("Número inválido! Por favor, insira um valor entre 6 e 15.");
+            Console.Write("Quantas dezenas por jogo (entre 6 e 15)? ");
+            quantidadeDezenas = int.Parse(Console.ReadLine());
+        }
+
+        string resultados = GerarJogos(quantidadeJogos, quantidadeDezenas);
+        SalvarResultadoEmArquivo(resultados);
+    }
+
+    static string GerarJogos(int quantidadeJogos, int quantidadeDezenas)
+    {
+        Random random = new Random();
+        string resultado = "";
+
+        for (int j = 0; j < quantidadeJogos; j++)
+        {
+            int[] dezenas = new int[quantidadeDezenas];
+            for (int i = 0; i < quantidadeDezenas; i++)
+            {
+                dezenas[i] = random.Next(1, 61);
+            }
+            string jogo = "Jogo " + (j + 1) + ": " + string.Join("-", dezenas);
+            Console.WriteLine(jogo);
+            resultado += jogo + "\n";
+        }
+
+        return resultado;
+    }
+
+    static void SalvarResultadoEmArquivo(string texto)
+    {
+        File.WriteAllText("resultados.txt", texto);
+        Console.WriteLine("Resultados salvos em 'resultados.txt'!");
+    }
+}
+
+
+
+FASE 6, 7, 8. 
+
+
+
+using System;
+using System.IO;
+
+class MegaSena
+{
+    static void Main()
+    {
+        try
+        {
+           
+            Console.Write("Quantos jogos deseja gerar? ");
+            int quantidadeJogos = LerNumeroDoUsuario();
+
+          
+            Console.Write("Quantas dezenas por jogo (entre 6 e 15)? ");
+            int quantidadeDezenas = LerNumeroDoUsuario();
+
+     
+            while (quantidadeDezenas < 6 || quantidadeDezenas > 15)
+            {
+                Console.WriteLine("Número inválido! Por favor, insira um valor entre 6 e 15.");
+                Console.Write("Quantas dezenas por jogo (entre 6 e 15)? ");
+                quantidadeDezenas = LerNumeroDoUsuario();
+            }
+
+    
+            string resultados = GerarJogos(quantidadeJogos, quantidadeDezenas);
+            SalvarResultadoEmArquivo(resultados);
+
+ 
+            Console.Write("Informe o valor do prêmio: R$ ");
+            decimal valorPremio = LerValorDecimalDoUsuario();
+
+     
+            CalcularPremiacao(valorPremio);
+        }
+        catch (Exception ex)
+        {
+       
+            Console.WriteLine("Ocorreu um erro: " + ex.Message);
+        }
+    }
+
+    static int LerNumeroDoUsuario()
+    {
+        int numero;
+        while (!int.TryParse(Console.ReadLine(), out numero))
+        {
+            Console.WriteLine("Número inválido! Por favor, tente informar o número novamente."); 
+        }
+        return numero;
+    }
+
+    static decimal LerValorDecimalDoUsuario()
+    {
+        decimal valor;
+        while (!decimal.TryParse(Console.ReadLine(), out valor))
+        {
+            Console.WriteLine("Valor inválido! Por favor, tente informar um valor novamente."); 
+        }
+        return valor;
+    }
+
+    static string GerarJogos(int quantidadeJogos, int quantidadeDezenas)
+    {
+        Random random = new Random(); 
+        string resultado = ""; 
+        for (int j = 0; j < quantidadeJogos; j++)
+        {
+            int[] dezenas = new int[quantidadeDezenas];
+            for (int i = 0; i < quantidadeDezenas; i++)
+            {
+                dezenas[i] = random.Next(1, 61);
+            }
+            string jogo = "Jogo " + (j + 1) + ": " + string.Join("-", dezenas); 
+            Console.WriteLine(jogo);
+            resultado += jogo + "\n"; 
+        }
+
+        return resultado;
+    }
+
+    static void SalvarResultadoEmArquivo(string texto)
+    {
+        File.WriteAllText("resultados.txt", texto);
+        Console.WriteLine("Resultados salvos em 'resultados.txt'!"); 
+    }
+
+    static void CalcularPremiacao(decimal valorPremio)
+    {
+        
+        decimal premio6Dezenas = valorPremio * 0.75m;
+        decimal premio5Dezenas = valorPremio * 0.15m;
+        decimal premio4Dezenas = valorPremio * 0.10m;
+
+       
+        Console.WriteLine("\nDistribuição do Prêmio:");
+        Console.WriteLine("75% para 6 acertos: R$ " + premio6Dezenas);
+        Console.WriteLine("15% para 5 acertos: R$ " + premio5Dezenas);
+        Console.WriteLine("10% para 4 acertos: R$ " + premio4Dezenas);
+    }
+}
+
+
